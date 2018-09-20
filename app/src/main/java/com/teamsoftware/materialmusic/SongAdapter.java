@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mpatric.mp3agic.Mp3File;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.LayoutRes;
@@ -24,11 +28,13 @@ public class SongAdapter extends ArrayAdapter<File> {
 
     private Context mContext;
     private List<File> songsList;
-
+    private SongManager songManager;
+    private Mp3File song;
     public SongAdapter(@NonNull Context context, @LayoutRes ArrayList<File> list) {
         super(context, 0 , list);
         mContext = context;
         songsList = list;
+        songManager = new SongManager();
     }
 
     @NonNull
@@ -37,32 +43,48 @@ public class SongAdapter extends ArrayAdapter<File> {
         View listItem = convertView;
         if(listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.row_layout,parent,false);
+        Log.e("Song Path", songsList.get(position).getAbsolutePath());
 
-        File song = songsList.get(position);
+        try {
+            song = new Mp3File(songsList.get(position).getAbsolutePath());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
-        ImageView image = (ImageView)listItem.findViewById(R.id.image_view);
-        image.setImageBitmap(getImageFromFile(song));
+        ImageView image = listItem.findViewById(R.id.image_view);
+        image.setImageBitmap(getAlbumArt(song));
 
-        TextView name = (TextView) listItem.findViewById(R.id.text_view);
-        name.setText(song.getName().replace(".mp3", ""));
+        TextView name = listItem.findViewById(R.id.text_view);
+        name.setText(getMetadataAll(song).get("Title"));
 
         return listItem;
     }
 
-    private Bitmap getImageFromFile(File file) {
-        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-        byte[] rawArt;
-        Bitmap art;
-        BitmapFactory.Options bfo = new BitmapFactory.Options();
+    public HashMap<String, String> getMetadataAll(Mp3File file){
+        HashMap<String, String> data = new HashMap<>();
+//        if(file.hasId3v1Tag()){
+//            data.put("Title", file.getId3v1Tag().getTitle());
+//            data.put("Album", file.getId3v1Tag().getAlbum());
+//            data.put("Artist", file.getId3v1Tag().getArtist());
+//        }
 
-        mmr.setDataSource(mContext, Uri.fromFile(file));
-        rawArt = mmr.getEmbeddedPicture();
+        if(file.hasId3v2Tag()){
+            data.put("Title", file.getId3v2Tag().getTitle());
+            data.put("Album", file.getId3v2Tag().getAlbum());
+            data.put("Artist", file.getId3v2Tag().getArtist());
 
-        if (null != rawArt)
-            art = BitmapFactory.decodeByteArray(rawArt, 0, rawArt.length, bfo);
-        else
-            art = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.ic_home_white_24dp);
+        }
+        return data;
 
-        return art;
     }
+    public Bitmap getAlbumArt(Mp3File file){
+
+        byte[] imageData = file.getId3v2Tag().getAlbumImage();
+        if (imageData != null) {
+            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+        }
+        return null;
+    }
+
 }

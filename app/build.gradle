@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -36,4 +40,9 @@ dependencies {
 
     //Audiogram
     implementation 'com.github.alxrm:audiowave-progressbar:0.9.2'
+
+    //Metadata
+    // https://mvnrepository.com/artifact/com.mpatric/mp3agic
+    implementation group: 'com.mpatric', name: 'mp3agic', version: '0.8.1'
+
 }
