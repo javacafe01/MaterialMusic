@@ -34,7 +34,7 @@ public class MusicFragment extends Fragment implements Serializable {
 
         init(rootview);
 
-        //songList updated again for assurance
+        //songList updated again
         songList = songManager.getSongsList();
         listItems = new String[songList.size()];
 
