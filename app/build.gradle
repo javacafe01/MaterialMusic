@@ -19,6 +19,8 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     //AndroidX Libraries
     implementation "androidx.appcompat:appcompat:$androidx_version"
     implementation "com.google.android.material:material:$androidx_version"

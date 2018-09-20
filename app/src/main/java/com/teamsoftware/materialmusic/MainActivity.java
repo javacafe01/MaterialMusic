@@ -3,6 +3,8 @@ package com.teamsoftware.materialmusic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -28,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
         navigate();
     }
 
-    private void navigate()
-    {
+    private void navigate() {
         navbar.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         viewLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, container);
         navbar = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         container = (FrameLayout) findViewById(R.id.container);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
         changeFragment(0);
     }
 
@@ -68,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
             newFragment = new MusicFragment();
         } else if (position == 1) {
             newFragment = new AlbumFragment();
-        } else if (position == 2){
+        } else if (position == 2) {
             newFragment = new ArtistFragment();
-        } else{
+        } else {
             newFragment = new PlaylistFragment();
         }
 

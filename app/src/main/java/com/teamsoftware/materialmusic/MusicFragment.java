@@ -2,6 +2,11 @@ package com.teamsoftware.materialmusic;
 
 import android.app.ProgressDialog;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -22,39 +27,34 @@ public class MusicFragment extends Fragment implements Serializable {
 
     ListView listView;
     String baseDirectory;
-    String[] listItems;
     ArrayList<File> songList;
     SongManager songManager;
     ProgressDialog progressDialog;
+    private static Context context;
+    SongAdapter songadapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_music, container, false);
 
+        context = getActivity();
         init(rootview);
 
         //songList updated again
         songList = songManager.getSongsList();
-        listItems = new String[songList.size()];
 
-        //Remove the file extension '.mp3' from the name
-        for (int i = 0; i < songList.size(); i++) {
-            listItems[i] = songList.get(i).getName().replace(".mp3", "");
-        }
-
-        //ArrayAdapter for setting up the ListView
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.row_layout, R.id.text_view, listItems);
+        songadapter = new SongAdapter(context,songList);
 
         if (listView != null) {
-            listView.setAdapter(arrayAdapter);
+            listView.setAdapter(songadapter);
 
             //Start MediaPlayer
             //Send song position and songList
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //Intent intent = new Intent(getContext(), /*Player class*/);
+                    //Intent intent = new Intent(context, /*Player class*/);
                     //intent.putExtra("position", position);
                     //startActivity(intent);
                 }
@@ -88,17 +88,20 @@ public class MusicFragment extends Fragment implements Serializable {
         //Path to external storage directory, in this case SD card
         baseDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading songs...");
-        //The dialog is cancelable with BACK key
+        progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(true);
+        progressDialog.setMessage("Loading songs...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         //Display the progress dialog, until all songs have been fetched
         while (!songManager.getFetchStatus()) {
+            progressDialog.show();
             songList = songManager.findSongList(new File(baseDirectory));
         }
         if (songList != null) {
             progressDialog.dismiss();
         }
     }
+
+
 }
