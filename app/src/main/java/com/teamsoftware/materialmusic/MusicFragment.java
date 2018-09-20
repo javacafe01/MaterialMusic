@@ -1,5 +1,6 @@
 package com.teamsoftware.materialmusic;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 
 import android.content.Context;
@@ -21,6 +22,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 
 public class MusicFragment extends Fragment implements Serializable {
@@ -39,29 +42,45 @@ public class MusicFragment extends Fragment implements Serializable {
         View rootview = inflater.inflate(R.layout.fragment_music, container, false);
 
         context = getActivity();
-        init(rootview);
+
 
         //songList updated again
-        songList = songManager.getSongsList();
+        checkPermissions();
 
-        songadapter = new SongAdapter(context,songList);
 
-        if (listView != null) {
-            listView.setAdapter(songadapter);
+            init(rootview);
+            songList = songManager.getSongsList();
 
-            //Start MediaPlayer
-            //Send song position and songList
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //Intent intent = new Intent(context, /*Player class*/);
-                    //intent.putExtra("position", position);
-                    //startActivity(intent);
-                }
-            });
+            songadapter = new SongAdapter(context, songList);
+
+            if (listView != null) {
+                listView.setAdapter(songadapter);
+
+                //Start MediaPlayer
+                //Send song position and songList
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //Intent intent = new Intent(context, /*Player class*/);
+                        //intent.putExtra("position", position);
+                        //startActivity(intent);
+                    }
+                });
+
         }
 
         return rootview;
+    }
+
+    private void checkPermissions() {
+        int permission1 = PermissionChecker.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permission1 == PermissionChecker.PERMISSION_GRANTED) {
+            //good to go
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
+        }
     }
 
     @Override
