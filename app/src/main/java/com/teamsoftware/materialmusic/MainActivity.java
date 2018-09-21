@@ -13,6 +13,7 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +22,15 @@ import android.widget.FrameLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navbar;
     AppBarLayout appBar;
     FrameLayout container;
-
+    MetadataCacher cache;
     private View viewLayout;
 
     @Override
@@ -80,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
         Fragment newFragment = null;
 
         if (position == 0) {
-            newFragment = new MusicFragment();
+            preloadMusic();
+            newFragment = new MusicFragment(cache);
         } else if (position == 1) {
             newFragment = new AlbumFragment();
         } else if (position == 2) {
@@ -90,5 +95,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction().replace(container.getId(), newFragment).commit();
+    }
+    public void preloadMusic(){
+        ArrayList<File> allSongs = new SongManager().findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
+        cache = new MetadataCacher(allSongs);
     }
 }

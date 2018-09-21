@@ -38,14 +38,17 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
     String baseDirectory;
 
     ArrayList<File> songList;
-    ArrayList<Bitmap> albumArts;
-    ArrayList<Mp3File> songPreload;
-    LruCache<String, Bitmap> albumCache;
+
 
     SongManager songManager;
     ProgressDialog progressDialog;
     private static Context context;
     SongRecyclerAdapter songadapter;
+    MetadataCacher cache;
+    public MusicFragment(MetadataCacher cache){
+        this.cache = cache;
+    }
+
 
     @Nullable
     @Override
@@ -57,18 +60,9 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
         init(rootview);
 
         //songList updated again
-        songList = songManager.getSongsList();
-        albumArts = new ArrayList<>();
-        songPreload = new ArrayList<>();
-        for(File file : songList){
-            try {
-                songPreload.add(new Mp3File(file.getAbsolutePath()));
-                albumArts.add(getAlbumArt(songPreload.get(songPreload.size()-1)));
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+        songList = cache.getSongList();
+
+
         //songadapter = new SongAdapter(context,songList, albumArts, songPreload);
 
         context = getActivity();
@@ -78,7 +72,10 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
 
         init(rootview);
 
-        songadapter = new SongRecyclerAdapter(context, songList, this, albumArts, songPreload);
+
+
+
+        songadapter = new SongRecyclerAdapter(context, songList, this, cache);
 
         // Create your layout manager.
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
@@ -89,15 +86,7 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
         recyclerView.setAdapter(songadapter);
         return rootview;
     }
-    public Bitmap getAlbumArt(Mp3File file){
 
-        byte[] imageData = file.getId3v2Tag().getAlbumImage();
-        if (imageData != null) {
-            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-        }
-        return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_audiotrack_black_24dp);
-
-    }
 
     private void checkPermissions() {
         int permission1 = PermissionChecker.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);

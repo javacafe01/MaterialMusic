@@ -21,18 +21,17 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
     private Context mContext;
     private List<File> songsList;
     Fragment frag;
+    MetadataCacher cache;
     //private Mp3File song;
-    private ArrayList<Bitmap> albumArts;
-    private ArrayList<Mp3File> songPreload;
     private static ClickListener clickListener;
 
 
-    public SongRecyclerAdapter(Context context, ArrayList<File> list, Fragment frag, ArrayList<Bitmap> arts, ArrayList<Mp3File> pre) {
+    public SongRecyclerAdapter(Context context, ArrayList<File> list, Fragment frag, MetadataCacher cache) {
         mContext = context;
         songsList = list;
         this.frag = frag;
-        songPreload = pre;
-        albumArts = arts;
+        this.cache = cache;
+
     }
 
     @Override
@@ -44,13 +43,8 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
 
     @Override
     public void onBindViewHolder(SongRecyclerAdapter.SongViewHolder holder, int position) {
-//        try {
-//            song = new Mp3File(songsList.get(position).getAbsolutePath());
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-        holder.bindSong(songPreload.get(position), albumArts.get(position));
+
+        holder.bindSong(cache.getMetadataAll(cache.getSongCache().get(position)).get("Title"), cache.getAlbumCache().get(position));
     }
 
     @Override
@@ -71,9 +65,9 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
             name = (TextView) itemView.findViewById(R.id.text_view);
             this.frag = frag;
         }
-        public void bindSong(Mp3File file, Bitmap art){
+        public void bindSong(String title, Bitmap art){
             image.setImageBitmap(art);
-            name.setText(getMetadataAll(file).get("Title"));
+            name.setText(title);
 
         }
 
@@ -83,31 +77,7 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
         }
     }
 
-    public HashMap<String, String> getMetadataAll(Mp3File file){
-        HashMap<String, String> data = new HashMap<>();
-//        if(file.hasId3v1Tag()){
-//            data.put("Title", file.getId3v1Tag().getTitle());
-//            data.put("Album", file.getId3v1Tag().getAlbum());
-//            data.put("Artist", file.getId3v1Tag().getArtist());
-//        }
 
-        if(file.hasId3v2Tag()){
-            data.put("Title", file.getId3v2Tag().getTitle());
-            data.put("Album", file.getId3v2Tag().getAlbum());
-            data.put("Artist", file.getId3v2Tag().getArtist());
-
-        }
-        return data;
-
-    }
-    public Bitmap getAlbumArt(Mp3File file){
-
-        byte[] imageData = file.getId3v2Tag().getAlbumImage();
-        if (imageData != null) {
-            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-        }
-        return null;
-    }
 
     public void setOnItemClickListener(ClickListener clickListener) {
         SongRecyclerAdapter.clickListener = clickListener;
