@@ -38,8 +38,6 @@ public class SongManager {
         return songs;
     }
 
-
-
     public boolean getFetchStatus() {
         return fetchStatus;
     }

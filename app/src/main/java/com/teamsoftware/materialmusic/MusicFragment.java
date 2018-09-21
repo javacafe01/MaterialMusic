@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.Serializable;
@@ -25,16 +26,18 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MusicFragment extends Fragment implements Serializable {
 
-    ListView listView;
+    RecyclerView recyclerView;
     String baseDirectory;
     ArrayList<File> songList;
     SongManager songManager;
     ProgressDialog progressDialog;
     private static Context context;
-    SongAdapter songadapter;
+    SongRecyclerAdapter songadapter;
 
     @Nullable
     @Override
@@ -43,31 +46,36 @@ public class MusicFragment extends Fragment implements Serializable {
 
         context = getActivity();
 
-
         //songList updated again
         checkPermissions();
 
+        init(rootview);
 
-            init(rootview);
-            songList = songManager.getSongsList();
+        songadapter = new SongRecyclerAdapter(context, songList, this);
 
-            songadapter = new SongAdapter(context, songList);
+        // Create your layout manager.
+        LinearLayoutManager layout = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layout);
 
-            if (listView != null) {
-                listView.setAdapter(songadapter);
 
-                //Start MediaPlayer
-                //Send song position and songList
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Intent intent = new Intent(context, /*Player class*/);
-                        //intent.putExtra("position", position);
-                        //startActivity(intent);
-                    }
-                });
+        recyclerView.setAdapter(songadapter);
 
-        }
+        //Start MediaPlayer
+        //Send song position and songList
+        songadapter.setOnItemClickListener(new SongRecyclerAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT);
+                //Intent intent = new Intent(context, /*Player class*/);
+                //intent.putExtra("position", position);
+                //startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+
+            }
+        });
 
         return rootview;
     }
@@ -102,7 +110,7 @@ public class MusicFragment extends Fragment implements Serializable {
 
     public void init(View v) {
 
-        listView = (ListView) v.findViewById(R.id.list_view);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         songManager = new SongManager();
         //Path to external storage directory, in this case SD card
         baseDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -121,6 +129,4 @@ public class MusicFragment extends Fragment implements Serializable {
             progressDialog.dismiss();
         }
     }
-
-
 }

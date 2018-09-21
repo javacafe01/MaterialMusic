@@ -3,8 +3,6 @@ package com.teamsoftware.materialmusic;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mpatric.mp3agic.Mp3File;
 
 import java.io.File;
@@ -23,6 +22,7 @@ import java.util.List;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class SongAdapter extends ArrayAdapter<File> {
 
@@ -30,6 +30,7 @@ public class SongAdapter extends ArrayAdapter<File> {
     private List<File> songsList;
     private SongManager songManager;
     private Mp3File song;
+
     public SongAdapter(@NonNull Context context, @LayoutRes ArrayList<File> list) {
         super(context, 0 , list);
         mContext = context;
@@ -53,7 +54,11 @@ public class SongAdapter extends ArrayAdapter<File> {
         }
 
         ImageView image = listItem.findViewById(R.id.image_view);
-        image.setImageBitmap(getAlbumArt(song));
+        //image.setImageBitmap(getAlbumArt(song));
+
+        Glide.with(mContext)
+                .load(getAlbumArt(song))
+                .into(image);
 
         TextView name = listItem.findViewById(R.id.text_view);
         name.setText(getMetadataAll(song).get("Title"));
