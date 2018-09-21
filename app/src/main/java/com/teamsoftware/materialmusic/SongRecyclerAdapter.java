@@ -56,7 +56,7 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
         return songsList.size();
     }
 
-    public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener  {
+    public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         private ImageView image;
         private TextView name;
         private Context mContext;
@@ -82,14 +82,6 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
         public void onClick(View v) {
             clickListener.onItemClick(getAdapterPosition(), v);
         }
-
-        @Override
-        public boolean onLongClick(View v) {
-            clickListener.onItemLongClick(getAdapterPosition(), v);
-            return false;
-        }
-
-
     }
 
     public HashMap<String, String> getMetadataAll(Mp3File file){
@@ -124,7 +116,6 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
 
     public interface ClickListener {
         void onItemClick(int position, View v);
-        void onItemLongClick(int position, View v);
     }
 
 }

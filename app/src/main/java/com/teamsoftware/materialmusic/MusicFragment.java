@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MusicFragment extends Fragment implements Serializable {
+public class MusicFragment extends Fragment implements Serializable, SongRecyclerAdapter.ClickListener {
 
     RecyclerView recyclerView;
     String baseDirectory;
@@ -59,24 +59,6 @@ public class MusicFragment extends Fragment implements Serializable {
 
 
         recyclerView.setAdapter(songadapter);
-
-        //Start MediaPlayer
-        //Send song position and songList
-        songadapter.setOnItemClickListener(new SongRecyclerAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT);
-                //Intent intent = new Intent(context, /*Player class*/);
-                //intent.putExtra("position", position);
-                //startActivity(intent);
-            }
-
-            @Override
-            public void onItemLongClick(int position, View v) {
-
-            }
-        });
-
         return rootview;
     }
 
@@ -128,5 +110,13 @@ public class MusicFragment extends Fragment implements Serializable {
         if (songList != null) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onItemClick(int position, View v) {
+        Toast.makeText(context, "" + position, Toast.LENGTH_SHORT);
+        //Intent intent = new Intent(context, /*Player class*/);
+        //intent.putExtra("position", position);
+        //startActivity(intent);
     }
 }
