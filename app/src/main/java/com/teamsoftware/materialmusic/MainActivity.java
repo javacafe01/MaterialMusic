@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setReference();
         navigate();
+
     }
 
     private void navigate() {
@@ -97,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(container.getId(), newFragment).commit();
     }
     public void preloadMusic(){
-        ArrayList<File> allSongs = new SongManager().findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
-        cache = new MetadataCacher(allSongs);
+        if(cache == null) {
+            ArrayList<File> allSongs = new SongManager().findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
+            cache = new MetadataCacher(allSongs);
+        }
     }
 }

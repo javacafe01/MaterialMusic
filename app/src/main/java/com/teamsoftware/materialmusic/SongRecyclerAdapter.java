@@ -43,8 +43,15 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
 
     @Override
     public void onBindViewHolder(SongRecyclerAdapter.SongViewHolder holder, int position) {
-
-        holder.bindSong(cache.getMetadataAll(cache.getSongCache().get(position)).get("Title"), cache.getAlbumCache().get(position));
+        String title = "";
+        Bitmap art = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_audiotrack_black_24dp);
+        if(cache.getSongCache().size() > position){
+            title = cache.getMetadataAll(cache.getSongCache().get(position)).get("Title");
+        }
+        if(cache.getAlbumCache().size() > position){
+            art = cache.getAlbumCache().get(position);
+        }
+        holder.bindSong(title, art);
     }
 
     @Override

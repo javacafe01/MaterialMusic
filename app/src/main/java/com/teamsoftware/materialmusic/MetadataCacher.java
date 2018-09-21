@@ -33,15 +33,23 @@ public class MetadataCacher {
         songList = songs;
         songCache = new ArrayList<>();
         albumCache = new ArrayList<>();
-        for(File file : songs){
-            try {
-                songCache.add(new Mp3File(file.getAbsolutePath()));
-                albumCache.add(getAlbumArt(songCache.get(songCache.size()-1)));
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                for(File file : songs){
+                    try {
+                        songCache.add(new Mp3File(file.getAbsolutePath()));
+                        albumCache.add(getAlbumArt(songCache.get(songCache.size()-1)));
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+        };
+
+        thread.start();
+
 
     }
 
