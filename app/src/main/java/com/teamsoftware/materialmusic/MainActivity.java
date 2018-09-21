@@ -4,20 +4,27 @@ package com.teamsoftware.materialmusic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.animation.ObjectAnimator;
+import android.animation.StateListAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navbar;
+    AppBarLayout appBar;
     FrameLayout container;
 
     private View viewLayout;
@@ -58,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
         viewLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, container);
         navbar = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         container = (FrameLayout) findViewById(R.id.container);
+        appBar = (AppBarLayout) findViewById(R.id.my_app_bar);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        StateListAnimator stateListAnimator = new StateListAnimator();
+        stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(appBar, "elevation", 5));
+        appBar.setStateListAnimator(stateListAnimator);
 
         changeFragment(0);
     }

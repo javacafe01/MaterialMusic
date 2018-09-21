@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="80dp"
     android:background="@color/white"
-    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:ignore="PrivateResource">
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-    <!-- Used to define a custom list row -->
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_margin="15dp"
+        android:layout_marginEnd="5dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/text_view"
-        android:textColor="#000"
-        android:textSize="17sp"
-        android:padding="15dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp" />
 
 </LinearLayout>

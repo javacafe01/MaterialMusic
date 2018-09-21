@@ -1,14 +1,7 @@
 package com.teamsoftware.materialmusic;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.mpatric.mp3agic.Mp3File;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class SongManager {
 
@@ -44,8 +37,6 @@ public class SongManager {
         }
         return songs;
     }
-
-
 
     public boolean getFetchStatus() {
         return fetchStatus;
