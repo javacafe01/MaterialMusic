@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -32,14 +32,35 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout container;
     MetadataCacher cache;
     private View viewLayout;
+    private boolean isPermissionChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setReference();
-        navigate();
 
+        isPermissionChecked = (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_GRANTED);
+        checkPermissions();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            setReference();
+            navigate();
+        }
+    }
+
+    private void checkPermissions() {
+        if (isPermissionChecked) {
+            //good to go
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
+        }
     }
 
     private void navigate() {
@@ -97,8 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(container.getId(), newFragment).commit();
     }
-    public void preloadMusic(){
-        if(cache == null) {
+
+    public void preloadMusic() {
+        if (cache == null) {
             ArrayList<File> allSongs = new SongManager().findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
             cache = new MetadataCacher(allSongs);
         }

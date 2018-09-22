@@ -9,7 +9,6 @@ import com.mpatric.mp3agic.Mp3File;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MetadataCacher {
     private ArrayList<Mp3File> songCache;

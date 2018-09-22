@@ -55,25 +55,17 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_music, container, false);
 
-
         context = getContext();
         init(rootview);
 
         //songList updated again
         songList = cache.getSongList();
 
-
         //songadapter = new SongAdapter(context,songList, albumArts, songPreload);
 
         context = getActivity();
 
-        //songList updated again
-        checkPermissions();
-
         init(rootview);
-
-
-
 
         songadapter = new SongRecyclerAdapter(context, songList, this, cache);
 
@@ -85,18 +77,6 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
 
         recyclerView.setAdapter(songadapter);
         return rootview;
-    }
-
-
-    private void checkPermissions() {
-        int permission1 = PermissionChecker.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (permission1 == PermissionChecker.PERMISSION_GRANTED) {
-            //good to go
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    1);
-        }
     }
 
     @Override
