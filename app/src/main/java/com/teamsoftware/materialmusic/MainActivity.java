@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         isPermissionChecked = (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_GRANTED);
+
+        if (isPermissionChecked) {
+            setReference();
+            navigate();
+        }
         checkPermissions();
     }
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkPermissions() {
-        if (isPermissionChecked) {
+        if ((PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_GRANTED)) {
             //good to go
         } else {
             ActivityCompat.requestPermissions(this,

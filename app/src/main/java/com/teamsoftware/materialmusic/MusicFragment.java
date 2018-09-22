@@ -10,6 +10,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MusicFragment extends Fragment implements Serializable{
+public class MusicFragment extends Fragment implements Serializable, SongRecyclerAdapter.ClickInterface{
 
     RecyclerView recyclerView;
     String baseDirectory;
@@ -67,7 +68,7 @@ public class MusicFragment extends Fragment implements Serializable{
 
         init(rootview);
 
-        songadapter = new SongRecyclerAdapter(context, songList, this, cache);
+        songadapter = new SongRecyclerAdapter(context, songList, this, cache, this);
 
         // Create your layout manager.
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
@@ -116,5 +117,10 @@ public class MusicFragment extends Fragment implements Serializable{
         if (songList != null) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onSongClick(int position) {
+        Log.d("Item", "Item Position =" + position);
     }
 }
