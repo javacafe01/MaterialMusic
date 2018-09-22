@@ -104,19 +104,24 @@ public class MainActivity extends AppCompatActivity {
     private void changeFragment(int position) {
 
         Fragment newFragment = null;
+        String tag = null;
 
         if (position == 0) {
             preloadMusic();
             newFragment = new MusicFragment(cache);
+            tag = "songs";
         } else if (position == 1) {
             newFragment = new AlbumFragment();
+            tag = "albums";
         } else if (position == 2) {
             newFragment = new ArtistFragment();
+            tag = "artist";
         } else {
             newFragment = new PlaylistFragment();
+            tag = "playlist";
         }
 
-        getSupportFragmentManager().beginTransaction().replace(container.getId(), newFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(container.getId(), newFragment, tag).addToBackStack(tag).commit();
     }
 
     public void preloadMusic() {
