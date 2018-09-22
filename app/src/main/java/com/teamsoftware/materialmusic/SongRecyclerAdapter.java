@@ -17,14 +17,12 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapter.SongViewHolder> {
+public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapter.SongViewHolder>{
     private Context mContext;
     private List<File> songsList;
     Fragment frag;
     MetadataCacher cache;
     //private Mp3File song;
-    private static ClickListener clickListener;
-
 
     public SongRecyclerAdapter(Context context, ArrayList<File> list, Fragment frag, MetadataCacher cache) {
         mContext = context;
@@ -59,7 +57,7 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
         return songsList.size();
     }
 
-    public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class SongViewHolder extends RecyclerView.ViewHolder{
         private ImageView image;
         private TextView name;
         private Context mContext;
@@ -77,21 +75,5 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
             name.setText(title);
 
         }
-
-        @Override
-        public void onClick(View v) {
-            clickListener.onItemClick(getAdapterPosition(), v);
-        }
     }
-
-
-
-    public void setOnItemClickListener(ClickListener clickListener) {
-        SongRecyclerAdapter.clickListener = clickListener;
-    }
-
-    public interface ClickListener {
-        void onItemClick(int position, View v);
-    }
-
 }
