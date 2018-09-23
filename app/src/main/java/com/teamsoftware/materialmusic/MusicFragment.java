@@ -36,7 +36,7 @@ public class MusicFragment extends Fragment implements Serializable {
         View rootview = inflater.inflate(R.layout.fragment_music, container, false);
 
         context = getContext();
-        init(rootview);
+        //init(rootview);
 
         songList = cache.getSongList();
 
