@@ -27,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SongRecyclerAdapter.ClickInterface{
+public class MainActivity extends AppCompatActivity implements SongRecyclerAdapter.ClickInterface {
 
     private BottomNavigationView navbar;
     private AppBarLayout appBar;
@@ -106,11 +106,11 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(appBar, "elevation", 5));
         appBar.setStateListAnimator(stateListAnimator);
 
-            preloadMusic();
-            songFrag = new MusicFragment(cache, this);
-            albumFrag = new AlbumFragment();
-            artistFrag = new ArtistFragment();
-            changeFragment(songFrag);
+        preloadMusic();
+        songFrag = new MusicFragment(cache, this);
+        albumFrag = new AlbumFragment();
+        artistFrag = new ArtistFragment();
+        changeFragment(songFrag);
 
     }
 
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         progressDialog.setMessage("Loading songs...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        if(cache==null) {
+        if (cache == null) {
             while (!songManager.getFetchStatus()) {
                 progressDialog.show();
                 allSongs = songManager.findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
