@@ -28,7 +28,7 @@ public class MetadataCacher {
         return songList;
     }
 
-    public MetadataCacher(ArrayList<File> songs){
+    MetadataCacher(ArrayList<File> songs){
         songList = songs;
         songCache = new ArrayList<>();
         albumCache = new ArrayList<>();
@@ -44,6 +44,7 @@ public class MetadataCacher {
                         e.printStackTrace();
                     }
                 }
+
             }
         };
 

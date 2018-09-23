@@ -57,7 +57,7 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
         View rootview = inflater.inflate(R.layout.fragment_music, container, false);
 
         context = getContext();
-        init(rootview);
+        //init(rootview);
 
         //songList updated again
         songList = cache.getSongList();
@@ -110,13 +110,14 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         //Display the progress dialog, until all songs have been fetched
-        while (!songManager.getFetchStatus()) {
-            progressDialog.show();
-            songList = songManager.findSongList(new File(baseDirectory));
-        }
-        if (songList != null) {
-            progressDialog.dismiss();
-        }
+
+//        while (!songManager.getFetchStatus()) {
+//            progressDialog.show();
+//            songList = songManager.findSongList(new File(baseDirectory));
+//        }
+//        if (songList != null) {
+//            progressDialog.dismiss();
+//        }
     }
 
     @Override
