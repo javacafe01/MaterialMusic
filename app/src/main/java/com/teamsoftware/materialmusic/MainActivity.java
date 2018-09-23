@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,12 +28,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView navbar;
-    AppBarLayout appBar;
-    FrameLayout container;
-    MetadataCacher cache;
+    private BottomNavigationView navbar;
+    private AppBarLayout appBar;
+    private FrameLayout container;
+    private MetadataCacher cache;
     private View viewLayout;
     private boolean isPermissionChecked;
+    private SongManager songManager;
+    private ProgressDialog progressDialog;
+    private ArrayList<File> allSongs;
+    private Fragment songFrag, albumFrag, artistFrag, currentFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +80,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_song:
-                                changeFragment(0);
+                                changeFragment(songFrag);
                                 break;
                             case R.id.action_album:
-                                changeFragment(1);
+                                changeFragment(albumFrag);
                                 break;
                             case R.id.action_artist:
-                                changeFragment(2);
-                                break;
-                            case R.id.action_playlist:
-                                changeFragment(3);
+                                changeFragment(artistFrag);
                                 break;
                         }
                         return true;
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void setReference() {
+    private void setReference() {
         viewLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, container);
         navbar = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         container = (FrameLayout) findViewById(R.id.container);
@@ -103,36 +105,36 @@ public class MainActivity extends AppCompatActivity {
         stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(appBar, "elevation", 5));
         appBar.setStateListAnimator(stateListAnimator);
 
-        changeFragment(0);
-    }
-
-    private void changeFragment(int position) {
-
-        Fragment newFragment = null;
-        String tag = null;
-
-        if (position == 0) {
             preloadMusic();
-            newFragment = new MusicFragment(cache);
-            tag = "songs";
-        } else if (position == 1) {
-            newFragment = new AlbumFragment();
-            tag = "albums";
-        } else if (position == 2) {
-            newFragment = new ArtistFragment();
-            tag = "artist";
-        } else {
-            newFragment = new PlaylistFragment();
-            tag = "playlist";
-        }
+            songFrag = new MusicFragment(cache);
+            albumFrag = new AlbumFragment();
+            artistFrag = new ArtistFragment();
+            changeFragment(songFrag);
 
-        getSupportFragmentManager().beginTransaction().replace(container.getId(), newFragment, tag).addToBackStack(tag).commit();
     }
 
-    public void preloadMusic() {
-        if (cache == null) {
-            ArrayList<File> allSongs = new SongManager().findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
-            cache = new MetadataCacher(allSongs);
+    private void changeFragment(Fragment frag) {
+        currentFrag = frag;
+        getSupportFragmentManager().beginTransaction().replace(container.getId(), currentFrag).commit();
+    }
+
+    private void preloadMusic() {
+
+        songManager = new SongManager();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(true);
+        progressDialog.setMessage("Loading songs...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        if(cache==null) {
+            while (!songManager.getFetchStatus()) {
+                progressDialog.show();
+                allSongs = songManager.findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
+                cache = new MetadataCacher(allSongs);
+            }
+            if (allSongs != null) {
+                progressDialog.dismiss();
+            }
         }
     }
 }

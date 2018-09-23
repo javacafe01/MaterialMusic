@@ -20,6 +20,7 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapter.SongViewHolder> {
     private Context mContext;
@@ -84,7 +85,7 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
     }
 
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private ImageView image;
+        private ShapedImageView image;
         private TextView name;
         private Context mContext;
         private Fragment frag;
@@ -92,7 +93,7 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
         public SongViewHolder(View itemView, Fragment frag) {
             super(itemView);
             mContext = itemView.getContext();
-            image = (ImageView) itemView.findViewById(R.id.image_view);
+            image = (ShapedImageView) itemView.findViewById(R.id.image_view);
             name = (TextView) itemView.findViewById(R.id.text_view);
             this.frag = frag;
         }
