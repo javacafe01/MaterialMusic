@@ -51,4 +51,7 @@ dependencies {
 
     //Album Image
     implementation 'cn.gavinliu:ShapedImageView:0.8.6'
+
+    //Tab Layout
+    implementation 'com.github.Andy671:Dachshund-Tab-Layout:v0.3.3'
 }

@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SongRecyclerAdapter.ClickInterface{
 
     private BottomNavigationView navbar;
     private AppBarLayout appBar;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         appBar.setStateListAnimator(stateListAnimator);
 
             preloadMusic();
-            songFrag = new MusicFragment(cache);
+            songFrag = new MusicFragment(cache, this);
             albumFrag = new AlbumFragment();
             artistFrag = new ArtistFragment();
             changeFragment(songFrag);
@@ -130,11 +131,16 @@ public class MainActivity extends AppCompatActivity {
             while (!songManager.getFetchStatus()) {
                 progressDialog.show();
                 allSongs = songManager.findSongList(new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
-                cache = new MetadataCacher(allSongs);
             }
             if (allSongs != null) {
+                cache = new MetadataCacher(allSongs);
                 progressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    public void onSongClick(int position) {
+        Log.d("Item", "Item Position =" + position);
     }
 }

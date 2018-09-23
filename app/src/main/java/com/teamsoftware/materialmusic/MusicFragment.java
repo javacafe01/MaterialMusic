@@ -16,16 +16,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MusicFragment extends Fragment implements Serializable, SongRecyclerAdapter.ClickInterface {
+public class MusicFragment extends Fragment implements Serializable {
 
     private RecyclerView recyclerView;
     private ArrayList<File> songList;
     private static Context context;
     private SongRecyclerAdapter songadapter;
     private MetadataCacher cache;
+    private SongRecyclerAdapter.ClickInterface clickInterface;
 
-    public MusicFragment(MetadataCacher cache) {
+    public MusicFragment(MetadataCacher cache, SongRecyclerAdapter.ClickInterface clickInterface) {
         this.cache = cache;
+        this.clickInterface = clickInterface;
     }
 
     @Nullable
@@ -38,7 +40,7 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
 
         songList = cache.getSongList();
 
-        songadapter = new SongRecyclerAdapter(context, songList, this, cache, this);
+        songadapter = new SongRecyclerAdapter(context, songList, this, cache, clickInterface);
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layout);
         recyclerView.setAdapter(songadapter);
@@ -65,10 +67,5 @@ public class MusicFragment extends Fragment implements Serializable, SongRecycle
 
     public void init(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-    }
-
-    @Override
-    public void onSongClick(int position) {
-        Log.d("Item", "Item Position =" + position);
     }
 }

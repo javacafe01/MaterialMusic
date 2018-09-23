@@ -29,7 +29,6 @@ public class SongRecyclerAdapter extends RecyclerView.Adapter<SongRecyclerAdapte
     MetadataCacher cache;
     private int lastPosition = -1;
     public ClickInterface clickInterface;
-    //private Mp3File song;
 
     public SongRecyclerAdapter(Context context, ArrayList<File> list, Fragment frag, MetadataCacher cache, ClickInterface clickInterface) {
         mContext = context;

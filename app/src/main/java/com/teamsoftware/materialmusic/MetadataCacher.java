@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import com.mpatric.mp3agic.Mp3File;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +28,7 @@ public class MetadataCacher {
         return songList;
     }
 
-    public MetadataCacher(ArrayList<File> songs){
+    MetadataCacher(ArrayList<File> songs){
         songList = songs;
         songCache = new ArrayList<>();
         albumCache = new ArrayList<>();
@@ -45,6 +44,7 @@ public class MetadataCacher {
                         e.printStackTrace();
                     }
                 }
+
             }
         };
 
@@ -80,7 +80,7 @@ public class MetadataCacher {
         if (imageData != null) {
             return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
         }
-        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_audiotrack_black_24dp);
+        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.preload);
 
     }
 }
