@@ -48,4 +48,7 @@ dependencies {
     //Shortbread Shortcuts
     implementation 'com.github.matthiasrobbers:shortbread:1.0.2'
     annotationProcessor 'com.github.matthiasrobbers:shortbread-compiler:1.0.2'
+
+    //Album Image
+    implementation 'cn.gavinliu:ShapedImageView:0.8.6'
 }
