@@ -7,17 +7,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
-
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -25,6 +25,8 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SongRecyclerAdapter.ClickInterface {
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
     private MediaWrapper mediaWrapper;
     private ArrayList<File> allSongs;
     private Fragment songFrag, albumFrag, artistFrag, currentFrag;
+    private Intent playIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
 
         if (isPermissionChecked) {
             setReference();
-            navigate();
         }
         checkPermissions();
     }
@@ -61,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             setReference();
-            navigate();
         }
     }
 
@@ -75,30 +76,12 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         }
     }
 
-    private void navigate() {
-        navbar.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_song:
-                                changeFragment(songFrag);
-                                break;
-                            case R.id.action_album:
-                                changeFragment(albumFrag);
-                                break;
-                            case R.id.action_artist:
-                                changeFragment(artistFrag);
-                                break;
-                        }
-                        return true;
-                    }
-                });
-    }
-
     private void setReference() {
         viewLayout = LayoutInflater.from(this).inflate(R.layout.activity_main, container);
-        navbar = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        SlidingUpPanelLayout lay = (SlidingUpPanelLayout) findViewById(R.id.slide);
+
+        //navbar = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         container = (FrameLayout) findViewById(R.id.container);
         appBar = (AppBarLayout) findViewById(R.id.my_app_bar);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -145,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
 
     @Override
     public void onSongClick(int position) {
-        Log.d("Item", "Item Position =" + position);
+        Log.d("song", "id " +position);
+        mediaWrapper.playSong(position);
     }
 }

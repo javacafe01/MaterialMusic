@@ -7,10 +7,11 @@ import android.graphics.BitmapFactory;
 import com.mpatric.mp3agic.Mp3File;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MetadataCacher {
+public class MetadataCacher implements Serializable{
     private ArrayList<Mp3File> songCache;
     private ArrayList<File> songList;
     private ArrayList<Bitmap> albumCache;

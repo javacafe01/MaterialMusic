@@ -54,4 +54,7 @@ dependencies {
 
     //Tab Layout
     implementation 'com.github.Andy671:Dachshund-Tab-Layout:v0.3.3'
+
+    //Activity Transition
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 }

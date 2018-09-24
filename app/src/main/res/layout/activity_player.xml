@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlayerActivity">
+
+    <ImageSwitcher
+        android:id="@+id/imageswitcher"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp">
+    </ImageSwitcher>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/song"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageswitcher"
+        android:text="Song"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/artist_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/song"
+        android:text="Artist | Album"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+
+    <rm.com.audiowave.AudioWaveView
+        android:id="@+id/wave"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_margin="16dp"
+        android:layout_below="@id/artist_album"
+        app:animateExpansion="true"
+        app:chunkWidth="3dp"
+        app:chunkHeight="24dp"
+        app:minChunkHeight="2dp"
+        app:chunkSpacing="1dp"
+        app:chunkRadius="1dp"
+        app:touchable="true"
+        app:waveColor="@color/blue"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wave"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/prev"
+            android:layout_width="20dp"
+            android:layout_toStartOf="@id/play"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_previous"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/play"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_play"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/next"
+            android:layout_width="20dp"
+            android:layout_toEndOf="@id/play"
+            android:layout_centerHorizontal="true"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_next"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
