@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.util.Log;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -54,7 +53,10 @@ public class MediaWrapper implements Serializable {
         if (position >= 0 && position <= maxSongs) {
             currSong = songList.get(position);
             try {
-                Log.d("Player", "NealPointerException");
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.reset();
+                }
+
                 mediaPlayer.setDataSource(currSong.getAbsolutePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
