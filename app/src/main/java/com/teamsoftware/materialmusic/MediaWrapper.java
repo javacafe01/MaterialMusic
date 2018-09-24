@@ -1,7 +1,10 @@
 package com.teamsoftware.materialmusic;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.os.Build;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -18,7 +21,7 @@ public class MediaWrapper implements Serializable {
     private ArrayList<File> songList;
     private File currSong;
     private Mp3File currMp3;
-    private boolean looping;
+    private boolean looping = false;
     private int currPos, maxSongs;
     private MediaPlayer mediaPlayer;
 
@@ -38,10 +41,6 @@ public class MediaWrapper implements Serializable {
         return looping;
     }
 
-    public void pause() {
-        mediaPlayer.pause();
-    }
-
     public void resume() {
         int length;
         length = mediaPlayer.getCurrentPosition();
@@ -51,17 +50,13 @@ public class MediaWrapper implements Serializable {
 
     public void playSong(int position) {
         currPos = position;
-        if (looping && position > maxSongs) {
-            position = 0;
-        } else {
-            position = -1;
-        }
         if (position >= 0 && position <= maxSongs) {
             currSong = songList.get(position);
             try {
                 mediaPlayer.setDataSource(currSong.getAbsolutePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
+                mediaPlayer.setVolume(100.0f, 100.0f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -85,6 +80,7 @@ public class MediaWrapper implements Serializable {
             mediaPlayer.pause();
         } else {
             mediaPlayer.start();
+
         }
 
     }
