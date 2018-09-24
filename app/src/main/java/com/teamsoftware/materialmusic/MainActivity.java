@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
 
         preloadMusic();
         songFrag = new MusicFragment(cache, this);
+        mediaWrapper = new MediaWrapper(cache, cache.getSongList());
         albumFrag = new AlbumFragment();
         artistFrag = new ArtistFragment();
         changeFragment(songFrag);
@@ -119,10 +120,10 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
             }
             if (allSongs != null) {
                 cache = new MetadataCacher(allSongs);
-                mediaWrapper = new MediaWrapper(cache, cache.getSongList());
                 progressDialog.dismiss();
             }
         }
+
 
     }
 
