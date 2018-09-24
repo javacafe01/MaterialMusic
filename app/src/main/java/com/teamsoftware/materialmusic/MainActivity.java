@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
     private boolean isPermissionChecked;
     private SongManager songManager;
     private ProgressDialog progressDialog;
+    private MediaWrapper mediaWrapper;
     private ArrayList<File> allSongs;
     private Fragment songFrag, albumFrag, artistFrag, currentFrag;
 
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
     private void preloadMusic() {
 
         songManager = new SongManager();
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Loading songs...");
@@ -134,9 +136,11 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
             }
             if (allSongs != null) {
                 cache = new MetadataCacher(allSongs);
+                mediaWrapper = new MediaWrapper(cache, cache.getSongList());
                 progressDialog.dismiss();
             }
         }
+
     }
 
     @Override

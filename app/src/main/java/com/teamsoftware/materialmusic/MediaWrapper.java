@@ -23,7 +23,7 @@ public class MediaWrapper {
     public void setLoopingList(boolean x){
         looping = x;
     }
-    
+
     public void playSong(int position){
         currPos = position;
         if(looping && position > maxSongs){
