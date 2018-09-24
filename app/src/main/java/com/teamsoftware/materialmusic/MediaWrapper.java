@@ -53,9 +53,7 @@ public class MediaWrapper implements Serializable {
         if (position >= 0 && position <= maxSongs) {
             currSong = songList.get(position);
             try {
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.reset();
-                }
+                mediaPlayer.reset();
 
                 mediaPlayer.setDataSource(currSong.getAbsolutePath());
                 mediaPlayer.prepare();
@@ -65,10 +63,6 @@ public class MediaWrapper implements Serializable {
                 e.printStackTrace();
             }
         }
-    }
-
-    public HashMap<String, String> getCurrSongData() throws InvalidDataException, IOException, UnsupportedTagException {
-        return cache.getMetadataAll(new Mp3File(currSong.getAbsolutePath()));
     }
 
     public Bitmap getArt() throws InvalidDataException, IOException, UnsupportedTagException {
