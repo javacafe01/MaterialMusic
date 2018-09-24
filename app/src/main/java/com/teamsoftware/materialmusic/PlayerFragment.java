@@ -111,14 +111,7 @@ public class PlayerFragment extends Fragment {
     }
 
     private void pauseResumeSong() {
-        if (isPlaying) {
-            isPlaying = false;
-            medWrap.pause();
-            play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
-        } else {
-            isPlaying = true;
-            medWrap.resume();
-            play.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-        }
+        medWrap.toggleCurrentSong();
+        isPlaying = medWrap.isPlaying();
     }
 }
