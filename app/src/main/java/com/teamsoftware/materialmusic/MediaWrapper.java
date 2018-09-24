@@ -53,6 +53,9 @@ public class MediaWrapper implements Serializable {
         if (position >= 0 && position <= maxSongs) {
             currSong = songList.get(position);
             try {
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                }
                 mediaPlayer.setDataSource(currSong.getAbsolutePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();

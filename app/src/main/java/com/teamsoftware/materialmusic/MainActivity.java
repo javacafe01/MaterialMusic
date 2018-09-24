@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
     @Override
     public void onSongClick(int position) {
         Log.d("song", "id " +position);
+
         mediaWrapper.playSong(position);
     }
 }
