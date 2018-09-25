@@ -31,6 +31,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
+
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
     private Fragment songFrag, albumFrag, artistFrag, currentFrag;
     private Intent playIntent;
     private SlidingUpPanelLayout lay;
-    private Handler seekHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,28 +93,6 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         if (isPermissionChecked) {
             setReference();
         }
-
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    seekBar.setProgress(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mediaWrapper.getMediaPlayer().pause();
-                seekbar.pauseAnimating();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaWrapper.getMediaPlayer().seekTo(getSeekToProgress());
-                mediaWrapper.getMediaPlayer().start();
-                seekbar.beginAnimating();
-            }
-        });
     }
 
     private int getSeekToProgress() {
@@ -232,6 +210,27 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
 
     private void initPlayerView() {
         seekbar = (SmoothSeekBar) findViewById(R.id.seekbar);
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    seekBar.setProgress(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mediaWrapper.getMediaPlayer().pause();
+                seekbar.pauseAnimating();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaWrapper.getMediaPlayer().seekTo(getSeekToProgress());
+                mediaWrapper.getMediaPlayer().start();
+                seekbar.beginAnimating();
+            }
+        });
 
         Animation a1 = AnimationUtils.loadAnimation(this, R.anim.in_prev_anim);
         Animation a2 = AnimationUtils.loadAnimation(this, R.anim.out_prev_anim);
