@@ -24,37 +24,30 @@
 
 package com.teamsoftware.materialmusic;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-public class ArtistFragment extends Fragment {
+public class Utils {
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_artist,container,false);
-
-        return rootview;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        // write logic here b'z it is called when fragment is visible to user
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    public static byte[] readBytesFromFile(File file) {
+        FileInputStream fileInputStream = null;
+        byte[] bytesArray = null;
+        try {
+            bytesArray = new byte[(int) file.length()];
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bytesArray);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bytesArray;
     }
 }

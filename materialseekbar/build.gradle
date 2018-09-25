@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('library-1.0.0-20140204.200428-1.aar'))

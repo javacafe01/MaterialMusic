@@ -38,9 +38,6 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-    //Audiogram
-    implementation 'com.github.alxrm:audiowave-progressbar:0.9.2'
-
     //Metadata
     // https://mvnrepository.com/artifact/com.mpatric/mp3agic
     implementation group: 'com.mpatric', name: 'mp3agic', version: '0.8.1'
@@ -57,4 +54,6 @@ dependencies {
 
     //Activity Transition
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    implementation(name:'smoothseekbar', ext:'aar')
 }

@@ -30,9 +30,11 @@
     android:layout_height="match_parent"
     xmlns:sothree="http://schemas.android.com/tools"
     android:gravity="bottom"
-    sothree:umanoPanelHeight="68dp"
+    sothree:umanoPanelHeight="20dp"
     sothree:umanoShadowHeight="4dp"
+    app:layout_constraintCircleRadius="10dp"
     android:background="@color/white">
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
