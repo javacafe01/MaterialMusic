@@ -39,6 +39,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
                 cache = new MetadataCacher(allSongs);
                 progressDialog.dismiss();
             }
+            cache.setContext(getApplicationContext());
         }
 
 
@@ -202,8 +204,13 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
 
         songSt = cache.getMetadataAll(file).get("Title");
         artistAlbumSt = cache.getMetadataAll(file).get("Artist") + " | " + cache.getMetadataAll(cache.getSongCache().get(position)).get("Album");
-
-        Bitmap img = cache.getAlbumArt(file);
+        Bitmap img;
+        if(cache.getAlbumArt(file) != null) {
+             img = cache.getAlbumArt(file);
+        }
+        else{
+            img = BitmapFactory.decodeResource(getResources(), R.drawable.preload);
+        }
         cover.setImageDrawable(new BitmapDrawable(img));
 
         song.setText(songSt);
