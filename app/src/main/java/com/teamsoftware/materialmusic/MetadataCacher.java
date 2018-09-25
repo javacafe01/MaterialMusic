@@ -106,4 +106,5 @@ public class MetadataCacher implements Serializable{
         return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.preload);
 
     }
+
 }

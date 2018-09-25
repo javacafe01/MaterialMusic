@@ -40,6 +40,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         preloadMusic();
         songFrag = new MusicFragment(cache, this);
         mediaWrapper = new MediaWrapper(cache, cache.getSongList());
+        mediaWrapper.getMediaPlayer().setOnCompletionListener(this::onCompletion);
         changeFragment(songFrag);
 
         initPlayerView();
@@ -255,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
                 out = a2;
                 resetAnim();
                 mediaWrapper.prevSong();
-                position--;
+                updatePos(-1);
                 setSongData();
                 seekbar.endAnimation();
                 seekbar.beginAnimating();
@@ -288,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
                 out = a4;
                 resetAnim();
                 mediaWrapper.nextSong();
-                position++;
+                updatePos(1);
                 setSongData();
                 seekbar.endAnimation();
                 seekbar.beginAnimating();
@@ -342,4 +344,34 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
             lay.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
     }
+    public void updatePos(int x){
+        position += x;
+        if(mediaWrapper.isLooping()){
+            if(position > mediaWrapper.getMaxSongs()){
+                position = 0;
+            }
+            else if(position < 0 ){
+                position = mediaWrapper.getMaxSongs();
+            }
+        }
+        else {
+            if(position > mediaWrapper.getMaxSongs()){
+                position = mediaWrapper.getMaxSongs();
+            }
+            else if (position < 0){
+                position = 0;
+            }
+        }
+        Log.e("Position", ""+position);
+    }
+
+    public void onCompletion(MediaPlayer arg0){
+        mediaWrapper.nextSong();
+        updatePos(1);
+        setSongData();
+        seekbar.endAnimation();
+        seekbar.beginAnimating();
+
+    }
+
 }

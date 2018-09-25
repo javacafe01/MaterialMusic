@@ -49,6 +49,8 @@ public class MediaWrapper implements Serializable {
         maxSongs = this.songList.size() - 1;
         mediaPlayer = new MediaPlayer();
 
+
+
     }
 
     public void setLoopingList(boolean x) {
@@ -59,14 +61,19 @@ public class MediaWrapper implements Serializable {
         return looping;
     }
 
-    public void resume() {
-        int length;
-        length = mediaPlayer.getCurrentPosition();
-        mediaPlayer.seekTo(length);
-        mediaPlayer.start();
-    }
 
     public void playSong(int position) {
+        if(looping){
+            if(position > maxSongs){
+                position = 0;
+            }
+            else if(position < 0 ){
+                position = maxSongs;
+            }
+        }
+        else if(position > maxSongs){
+            position = -1;
+        }
         currPos = position;
         if (position >= 0 && position <= maxSongs) {
             currSong = songList.get(position);
@@ -111,8 +118,13 @@ public class MediaWrapper implements Serializable {
 
     }
 
+    public int getMaxSongs() {
+        return maxSongs;
+    }
+
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
 
     }
+
 }
