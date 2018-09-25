@@ -29,6 +29,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
+import com.turingtechnologies.materialscrollbar.DragScrollBar;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,7 +69,6 @@ public class MusicFragment extends Fragment implements Serializable {
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layout);
         recyclerView.setAdapter(songadapter);
-
         return rootview;
     }
 

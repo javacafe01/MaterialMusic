@@ -34,13 +34,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view">
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical">
+
     </androidx.recyclerview.widget.RecyclerView>
 
-    <com.turingtechnologies.materialscrollbar.TouchScrollBar
-        android:id="@+id/touchScrollBar"
+    <com.turingtechnologies.materialscrollbar.DragScrollBar
+        android:id="@+id/dragScrollBar"
         android:layout_width="wrap_content"
         app:msb_recyclerView="@id/recycler_view"
         app:msb_lightOnTouch="true"
+        app:msb_scrollMode="firstVisible"
         android:layout_height="match_parent" />
 </LinearLayout>

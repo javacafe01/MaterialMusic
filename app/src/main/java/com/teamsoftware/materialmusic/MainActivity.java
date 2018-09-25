@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
     private ProgressDialog progressDialog;
     private MediaWrapper mediaWrapper;
     private ArrayList<File> allSongs;
-    private Fragment songFrag, albumFrag, artistFrag, currentFrag;
-    private Intent playIntent;
+    private Fragment songFrag, currentFrag;
     private SlidingUpPanelLayout lay;
 
     @Override
@@ -90,8 +89,9 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        isPermissionChecked = (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_GRANTED);
+        checkPermissions();
 
+        isPermissionChecked = (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_GRANTED);
         if (isPermissionChecked) {
             setReference();
         }
@@ -392,5 +392,4 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         seekbar.beginAnimating();
 
     }
-
 }
