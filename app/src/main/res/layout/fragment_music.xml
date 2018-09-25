@@ -36,4 +36,11 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_view">
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.turingtechnologies.materialscrollbar.TouchScrollBar
+        android:id="@+id/touchScrollBar"
+        android:layout_width="wrap_content"
+        app:msb_recyclerView="@id/recycler_view"
+        app:msb_lightOnTouch="true"
+        android:layout_height="match_parent" />
 </LinearLayout>

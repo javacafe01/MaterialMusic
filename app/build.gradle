@@ -42,10 +42,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.mpatric/mp3agic
     implementation group: 'com.mpatric', name: 'mp3agic', version: '0.8.1'
 
-    //Shortbread Shortcuts
-    implementation 'com.github.matthiasrobbers:shortbread:1.0.2'
-    annotationProcessor 'com.github.matthiasrobbers:shortbread-compiler:1.0.2'
-
     //Album Image
     implementation 'cn.gavinliu:ShapedImageView:0.8.6'
 
@@ -55,5 +51,9 @@ dependencies {
     //Activity Transition
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
+    //Smooth Seekbar
     implementation(name:'smoothseekbar', ext:'aar')
+
+    //Scroll
+    implementation 'com.github.turing-tech:MaterialScrollBar:13.+'
 }
