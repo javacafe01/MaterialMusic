@@ -203,7 +203,19 @@ public class MainActivity extends AppCompatActivity implements SongRecyclerAdapt
         Mp3File file = cache.getSongCache().get(position);
 
         songSt = cache.getMetadataAll(file).get("Title");
-        artistAlbumSt = cache.getMetadataAll(file).get("Artist") + " | " + cache.getMetadataAll(cache.getSongCache().get(position)).get("Album");
+        if(songSt == null){
+            String fullName = cache.getSongList().get(position).getAbsolutePath();
+            songSt =fullName.substring(0, fullName.length()-5);
+        }
+        String artist = cache.getMetadataAll(file).get("Artist");
+        if(artist == null){
+            artist = "Artist";
+        }
+        String album = cache.getMetadataAll(cache.getSongCache().get(position)).get("Album");
+        if(album == null){
+            album = "Album";
+        }
+        artistAlbumSt =  artist + " | " + album;
         Bitmap img;
         if(cache.getAlbumArt(file) != null) {
              img = cache.getAlbumArt(file);
