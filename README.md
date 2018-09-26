@@ -1,12 +1,4 @@
-<p align="center">
-  <img src="app/src/main/res/mipmap-xhdpi/ic_launcher.png">
-</p>
 
-<h1 align="center">
-  MaterialMusic
-</h1>
-
-<h3 align="center">
   <p align="center">
   <img src="app/src/main/res/mipmap-xhdpi/ic_launcher.png">
 </p>
